@@ -1,0 +1,9 @@
+#Игнорщик
+#
+
+*main
+/rezerv
+/bin
+/built
+/include
+/scr
