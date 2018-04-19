@@ -1,6 +1,8 @@
 #include <termios.h>
 #include <stdio.h>
 #include "conios.h"
+#include <stdlib.h>
+
 static struct termios old, new;
 
 void gotoxy(int x, int y)

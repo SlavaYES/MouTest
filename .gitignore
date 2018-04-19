@@ -1,9 +1,6 @@
 #Игнорщик
 #
 
-*main
+/bin/main
 /rezerv
-/bin
-/built
-/include
-/scr
+src/list*
