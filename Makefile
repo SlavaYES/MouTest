@@ -14,7 +14,7 @@ EXE=$(bin)main
 
 .PHONY: all clean
 
-all: bin build $(EXE)
+all: bin build txt $(EXE)
 
 $(EXE): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@
@@ -34,5 +34,9 @@ bin:
 	mkdir bin
 src:
 	mkdir src
+txt:
+	mkdir txt
+
 clean:
-	-rm -rf build bin/main
+	-rm -rf build/* bin/* txt/*
+

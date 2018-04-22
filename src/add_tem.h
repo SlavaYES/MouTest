@@ -1,2 +1,2 @@
 #include <stdio.h>
-void setTem(FILE *file);
+void setTem(void);
