@@ -13,9 +13,7 @@ int main()
     char enter;
     
     /*CREAT ADDTEST*/
-    FILE *file=fopen("txt/Init_file.txt", "w");
-    fclose(file);
-    setTem(file);
+    setTem();
     return 0;
     /*CREAT ADDTEST*/
     
