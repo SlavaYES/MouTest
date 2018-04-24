@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "conios.h"
+#include "conios.h" //watching <conio.h> || <altconio.h>
 #include "add_tem.h"
 #define x 100
 #define y 20
@@ -13,7 +13,7 @@ int main()
     char enter;
     
     /*CREAT ADDTEST*/
-    setTem();
+    set_theme();
     return 0;
     /*CREAT ADDTEST*/
     
@@ -26,9 +26,9 @@ int main()
     printf("Выбрать: 'E'");
     /*MENU*/
     gotoxy(x, y+1);
-    printf("\x1b[1;36m");
+    printf("\x1b[1;36m"); //watchig убери добавь виндовсовкого цвета текста типа settextcolor
     printf("Создать тест");
-    printf("\x1b[0m");
+    printf("\x1b[0m"); //watching убери
     gotoxy(x, y+2);
     printf("Пройти  тест");
     gotoxy(x, y+3);
@@ -64,7 +64,7 @@ int main()
 	if (i>4) i=1;
 	/*SWITCH POINTER*/
 	gotoxy(x, y+i);
-	printf("\x1b[1;36m");
+	printf("\x1b[1;36m");//watching
 	switch (i) {
 	case 1: printf("Создать тест"); break;
 	case 2: printf("Пройти  тест"); break;
