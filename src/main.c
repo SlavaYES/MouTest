@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "conios.h" //watching <conio.h> || <altconio.h>
+
+#ifdef _WIN32
+#include <conio.h>
+#else
+#include "conios.h"
+#endif
+
 #include "add_tem.h"
 #define x 100
 #define y 20
@@ -26,9 +32,17 @@ int main()
     printf("Выбрать: 'E'");
     /*MENU*/
     gotoxy(x, y+1);
-    printf("\x1b[1;36m"); //watchig убери добавь виндовсовкого цвета текста типа settextcolor
+    #ifdef _WIN32
+    settextcolor(15, 0);
+    #else
+    printf("\x1b[1;36m"); //watchig
+    #endif
     printf("Создать тест");
-    printf("\x1b[0m"); //watching убери
+    #ifdef _WIN32
+    settextcolor(0, 15);
+    #else
+    printf("\x1b[0m"); //watching
+    #endif
     gotoxy(x, y+2);
     printf("Пройти  тест");
     gotoxy(x, y+3);
@@ -64,14 +78,23 @@ int main()
 	if (i>4) i=1;
 	/*SWITCH POINTER*/
 	gotoxy(x, y+i);
-	printf("\x1b[1;36m");//watching
+	#ifdef _WIN32
+	settextcolor(0, 15);
+	#else
+	printf("\x1b[1;36m"); //watching
+	#endif
 	switch (i) {
 	case 1: printf("Создать тест"); break;
 	case 2: printf("Пройти  тест"); break;
 	case 3: printf("Помощь"); break;
 	case 4: printf("Выйти"); break;
 	}
-	printf("\x1b[0m");
+	
+	#ifdef _WIN32
+	settextcolor(0, 15);
+	#else
+	printf("\x1b[0m"); //watching
+	#endif
     }
     /*SWITCH ITEM*/
     gotoxy(0, 25);
