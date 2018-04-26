@@ -18,7 +18,7 @@ EXE=$(bin)main
 all: bin build txt $(EXE)
 
 $(EXE): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $@
+	$(CC) $(OBJECTS) -Incurses -o $@
 
 $(build)main.o: $(src)main.c $(src)conios.h
 	$(CC) $(CFLAGS) -c $(src)main.c -o $@

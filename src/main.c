@@ -1,12 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#ifdef _WIN32
-#include <conio.h>
-#else
+#include <ncurses.h>
 #include "conios.h"
-#endif
-
 #include "add_tem.h"
 #define x 100
 #define y 20

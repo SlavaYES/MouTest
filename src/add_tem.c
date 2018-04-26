@@ -5,7 +5,9 @@
 (Догадываюсь, что из предыдущей строки видит символ конца строки)
 getchar работает точно так же, не дает мне ввести данные
 Писал отделную программу для ввода, как в основной -> всё работает нормально
+Запускается программа через команду ./bin/main
 */
+#include <stdio_ext.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -60,6 +62,7 @@ void set_theme(void)
 	clrscr();
 	if (flag) perror("Ошибка ввода данных...\n");
 	fputs("Введите Тему Теста[20]:\n", stdout);
+	while (getchar() != '\n');
 	fgets(name_theme, 100, stdin);
 	flag=1;
     } while (strlen(name_theme) > 20);
@@ -78,6 +81,7 @@ void set_theme(void)
 	    //clrscr();
 	    if (flag) perror("Ошибка ввода данных...\n");
 	    printf("Введите (%d) Вопрос[100]:\n", j);
+	    __fpurge(stdin);
 	    fgets(record.quest, 150, stdin);
 	    flag=1;
 	} while (strlen(record.quest) > 100);
@@ -98,6 +102,7 @@ void set_theme(void)
 		//clrscr();
 		if (flag) perror("Ошибка ввода данных...\n");
 		printf("Введите (%d) ответ[10]:\n", i);
+		__fpurge(stdin);
 		fgets(record.answer, 50, stdin);
 		flag=1;
 	    } while (strlen(record.answer) > 10);
@@ -108,6 +113,7 @@ void set_theme(void)
 	    fputs(". ", file);
 	    i++;
 	    fputs("Закончить ввод ответов?[y]...\n", stdout);
+	    __fpurge(stdin);
 	    exit=getchar();
 	}
 	fwrite(ans_s, 1, 3, file);
@@ -123,12 +129,14 @@ void set_theme(void)
 	    scanf("%d", record.num+i);
 	    i++;
 	    fputs("Закончить ввод?[y]...\n", stdout);
+	    __fpurge(stdin);
 	    exit=getchar();
 	}
 	fwrite(record.num, sizeof(int), i, file);
 	fwrite(try_s, 1, 3, file);
 	/*TRY NUM*/
 	printf("Закончить ввод вопросов?[y]...\n");
+	__fpurge(stdin);
 	exit=getchar();
     }
     /*IN WORKING*/
