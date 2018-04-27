@@ -4,6 +4,8 @@
 
 int main()
 {
+    set_theme();
+    /*
     char enter;
     while (enter != '4') {
 	system("clear");
@@ -28,6 +30,7 @@ int main()
 	    break;
 	}
     }
+    */
     return 0;
 }
 
