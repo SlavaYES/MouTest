@@ -1,2 +1,1 @@
-#include <stdio.h>
-void set_theme(void);
+int set_theme(void);

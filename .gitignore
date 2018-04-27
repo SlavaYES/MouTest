@@ -1,6 +1,7 @@
 #Игнорщик
 #
 
-/bin/main
+*main
 /rezerv
-src/list*
+/build/*
+/txt/*
