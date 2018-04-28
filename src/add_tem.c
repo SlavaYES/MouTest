@@ -10,9 +10,7 @@ int set_theme(void)
     FILE *file;
     char nameFile[32], nameFileFull[64], nameTheme[32];
     //INIT SYMBOL
-    char the_s[4], vop_s[4], otv_s[4], try_s[4];
-    strcpy(the_s, "##\n"); strcpy(vop_s, "#?\n");
-    strcpy(otv_s, "#!\n"); strcpy(try_s, "#^\n");
+    char vop_s='$', otv_s='!', try_s='^';
     /*NAME FILE*/
     strcpy(nameFileFull, "txt/");
     system("clear");
@@ -30,9 +28,7 @@ int set_theme(void)
     fputs("Enter Test Theme: ", stdout);
     __fpurge(stdin);
     fgets(nameTheme, 32, stdin);
-    fwrite(the_s, 1, 2, file);
     fwrite(nameTheme, 1, strlen(nameTheme), file);
-    fwrite(the_s, 1, 3, file);
     /*THEME*/
     char enter_v, enter_o, enter_t;
     char quest[128], answer[32], try[16];
@@ -43,14 +39,14 @@ int set_theme(void)
 	printf("Enter (%d) the Question:\n\t", i);
 	__fpurge(stdin);
 	fgets(quest, 128, stdin);
-	fwrite(vop_s, 1, 2, file);
+	fwrite(&vop_s, 1, 1, file);
 	sprintf(buffer, "%d", i);
 	fwrite(buffer, 1, 1, file);
 	fwrite(t, 1, 2, file);
 	fwrite(quest, 1, strlen(quest), file);
-	fwrite(vop_s, 1, 3, file);
+	
 	i++;
-	fwrite(otv_s, 1, 2 ,file);
+	fwrite(&otv_s, 1, 1, file);
 	j=1;
 	do {//ENTER ANSWER
 	    printf("Enter (%d) the Answer:\n\t", j);
@@ -65,9 +61,8 @@ int set_theme(void)
 	    __fpurge(stdin);
 	    enter_o=getchar();
 	} while (enter_o != 'y');
-	fwrite(otv_s, 1, 3, file);
-	
-	fwrite(try_s, 1, 2, file);
+
+	fwrite(&try_s, 1, 1, file);
 	k=1;
 	do {//ENTER TRY ANSWER
 	    printf("Enter (%d) the NUM Try Answer:\n\t", k);
@@ -79,7 +74,6 @@ int set_theme(void)
 	    __fpurge(stdin);
 	    enter_t=getchar();
 	} while (enter_t != 'y');
-	fwrite(try_s, 1, 3, file);
 	
 	printf("\nQuit the Questuion?[y]: ");
 	__fpurge(stdin);
