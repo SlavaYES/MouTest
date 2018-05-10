@@ -1,0 +1,13 @@
+teme
+$1. vop
+!1)otv
+2)otv
+3)otv
+^1#$2. vop
+!1)otv
+2)otv
+3)otv
+^23#$3. vop
+!1)
+2)otv
+^2#
