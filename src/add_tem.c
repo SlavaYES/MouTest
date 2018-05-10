@@ -7,10 +7,10 @@
 
 int set_theme(void)
 {
-    FILE *file;
+    FILE *file, *file_theme;
     char nameFile[32], nameFileFull[64], nameTheme[32];
     //INIT SYMBOL
-    char vop_s='$', otv_s='!', try_s='^';
+    char vop_s='$', otv_s='!', try_s='^', end_s='#', end_len='\n';
     /*NAME FILE*/
     strcpy(nameFileFull, "txt/");
     system("clear");
@@ -24,6 +24,21 @@ int set_theme(void)
     if (!file) {
 	fputs("ERROR\n", stdout);
     }
+    file_theme=fopen("Theme/Themes.txt", "ab");
+    fwrite(nameFile, 1, strlen(nameFile), file_theme);
+    fwrite(&end_len, 1, 1, file_theme);
+    fclose(file_theme);
+    
+    /*VIEW FILE*/
+    char p;
+    file_theme=fopen("Theme/Themes.txt", "rb");
+    if (!file_theme) {
+	fputs("ERROR\n", stdout);
+    }
+    while (fread(&p, 1, 1, file_theme)) {
+	printf("%c", p);
+    }
+    fclose(file_theme);
     /*THEME*/
     fputs("Enter Test Theme: ", stdout);
     __fpurge(stdin);
@@ -74,7 +89,8 @@ int set_theme(void)
 	    __fpurge(stdin);
 	    enter_t=getchar();
 	} while (enter_t != 'y');
-	
+	fwrite(&end_s, 1, 1, file);
+	fwrite(&end_len, 1, 1, file);
 	printf("\nQuit the Questuion?[y]: ");
 	__fpurge(stdin);
 	enter_v=getchar();
@@ -82,8 +98,9 @@ int set_theme(void)
     } while (enter_v != 'y');
     fclose(file);
     /*FILE*/
+    
     /*VIEW FILE*/
-    char p;
+    //char p;
     file=fopen(nameFileFull, "rb");
     if (!file) {
 	fputs("ERROR\n", stdout);
