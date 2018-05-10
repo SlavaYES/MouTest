@@ -10,7 +10,7 @@ src=src/
 build=build/
 
 SOURCES=main.c add_tem.c
-OBJECTS=$(addprefix $(build), main.o add_tem.o)
+OBJECTS=$(addprefix $(build), main.o add_tem.o setAnswer.o setTryAnswer.o)
 EXE=main
 
 .PHONY: all clean
@@ -25,6 +25,12 @@ $(build)main.o: $(src)main.c
 
 $(build)add_tem.o: $(src)add_tem.c $(src)add_tem.h
 	$(CC) $(CFLAGS) -c $(src)add_tem.c -o $@
+
+$(build)setAnswer.o: $(src)setAnswer.c $(src)setAnswer.h
+	$(CC) $(CFLAGS) -c $(src)setAnswer.c -o $@
+
+$(build)setTryAnswer.o: $(src)setTryAnswer.c $(src)setTryAnswer.h
+	$(CC) $(CFLAGS) -c $(src)setTryAnswer.c -o $@
 
 build:
 	mkdir build

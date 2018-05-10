@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "add_tem.h"
+#include "setAnswer.h"
+#include "setTryAnswer.h"
 
 int set_theme(void)
 {
@@ -28,7 +30,6 @@ int set_theme(void)
     fwrite(nameFile, 1, strlen(nameFile), file_theme);
     fwrite(&end_len, 1, 1, file_theme);
     fclose(file_theme);
-    
     /*VIEW FILE*/
     char p;
     file_theme=fopen("Theme/Themes.txt", "rb");
@@ -45,10 +46,11 @@ int set_theme(void)
     fgets(nameTheme, 32, stdin);
     fwrite(nameTheme, 1, strlen(nameTheme), file);
     /*THEME*/
-    char enter_v, enter_o, enter_t;
-    char quest[128], answer[32], try[16];
-    int i, j, k;
-    char buffer[10], sk=')', t[4]=". ";
+    char enter_v='u';
+    char quest[128];
+    int i;
+    int flag=0;
+    char buffer[10], t[4]=". ";
     i=1;
     do {//ENTER QUESTION
 	printf("Enter (%d) the Question:\n\t", i);
@@ -59,48 +61,30 @@ int set_theme(void)
 	fwrite(buffer, 1, 1, file);
 	fwrite(t, 1, 2, file);
 	fwrite(quest, 1, strlen(quest), file);
-	
 	i++;
 	fwrite(&otv_s, 1, 1, file);
-	j=1;
-	do {//ENTER ANSWER
-	    printf("Enter (%d) the Answer:\n\t", j);
-	    __fpurge(stdin);
-	    fgets(answer, 128, stdin);
-	    sprintf(buffer, "%d", j);
-	    fwrite(buffer, 1, 1, file);
-	    fwrite(&sk, 1, 1, file);
-	    fwrite(answer, 1, strlen(answer), file);
-	    j++;
-	    printf("\nQuit the Answer?[y]: ");
-	    __fpurge(stdin);
-	    enter_o=getchar();
-	} while (enter_o != 'y');
-
+	flag=1;
+	do {
+	    if (setAnswer(file)) flag=0;
+	}
+	while (flag);
 	fwrite(&try_s, 1, 1, file);
-	k=1;
-	do {//ENTER TRY ANSWER
-	    printf("Enter (%d) the NUM Try Answer:\n\t", k);
-	    __fpurge(stdin);
-	    fgets(try, 16, stdin);
-	    fwrite(try, 1, 1, file);
-	    k++;
-	    printf("\nQuit the Try Answer?[y]: ");
-	    __fpurge(stdin);
-	    enter_t=getchar();
-	} while (enter_t != 'y');
+	flag=1;
+	do {
+	    if (setTryAnswer(file)) flag=0;
+	}
+	while (flag);
 	fwrite(&end_s, 1, 1, file);
 	fwrite(&end_len, 1, 1, file);
+	
 	printf("\nQuit the Questuion?[y]: ");
 	__fpurge(stdin);
-	enter_v=getchar();
+	scanf("%c", &enter_v);
 	fflush(file);
     } while (enter_v != 'y');
     fclose(file);
     /*FILE*/
-    
     /*VIEW FILE*/
-    //char p;
     file=fopen(nameFileFull, "rb");
     if (!file) {
 	fputs("ERROR\n", stdout);
@@ -113,5 +97,4 @@ int set_theme(void)
     fclose(file);
     return 0;
 }
-
 
