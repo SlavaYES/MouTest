@@ -1,0 +1,1 @@
+int set_theme(void);
