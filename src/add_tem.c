@@ -10,9 +10,10 @@
 int set_theme(void)
 {
     FILE *file, *file_theme;
+    char p;//Obhod
     char nameFile[32], nameFileFull[64], nameTheme[32];
     //INIT SYMBOL
-    char vop_s='$', otv_s='!', try_s='^', end_s='#', end_len='\n';
+    char vop_s='$', otv_s='!', try_s='^', end_s='#', end_len='\n', pro_s=' ';
     /*NAME FILE*/
     strcpy(nameFileFull, "txt/");
     system("clear");
@@ -26,33 +27,30 @@ int set_theme(void)
     if (!file) {
 	fputs("ERROR\n", stdout);
     }
-    file_theme=fopen("Theme/Themes.txt", "ab");
-    fwrite(nameFile, 1, strlen(nameFile), file_theme);
-    fwrite(&end_len, 1, 1, file_theme);
-    fclose(file_theme);
-    /*VIEW FILE*/
-    char p;
-    file_theme=fopen("Theme/Themes.txt", "rb");
-    if (!file_theme) {
-	fputs("ERROR\n", stdout);
-    }
-    while (fread(&p, 1, 1, file_theme)) {
-	printf("%c", p);
-    }
-    fclose(file_theme);
     /*THEME*/
     fputs("Enter Test Theme: ", stdout);
     __fpurge(stdin);
     fgets(nameTheme, 32, stdin);
-    fwrite(nameTheme, 1, strlen(nameTheme), file);
+
+    file_theme=fopen("Theme/Themes.txt", "ab");
+    if (!file_theme) {
+	fputs("ERROR\n", stdout);
+    }
+    fwrite(nameTheme, 1, strlen(nameTheme)-1, file_theme);
+    fwrite(&pro_s, 1, 1, file_theme);
+    fwrite(nameFileFull, 1, strlen(nameFileFull), file_theme);
+    fwrite(&end_len, 1, 1, file_theme);
+    fclose(file_theme);
+    /*VIEW FILE*/
+    fclose(file_theme);
     /*THEME*/
     char enter_v='u';
     char quest[128];
-    int i;
-    int flag=0;
+    int i, n;
     char buffer[10], t[4]=". ";
     i=1;
     do {//ENTER QUESTION
+	system("clear");
 	printf("Enter (%d) the Question:\n\t", i);
 	__fpurge(stdin);
 	fgets(quest, 128, stdin);
@@ -61,19 +59,12 @@ int set_theme(void)
 	fwrite(buffer, 1, 1, file);
 	fwrite(t, 1, 2, file);
 	fwrite(quest, 1, strlen(quest), file);
-	i++;
+	
 	fwrite(&otv_s, 1, 1, file);
-	flag=1;
-	do {
-	    if (setAnswer(file)) flag=0;
-	}
-	while (flag);
+	n=setAnswer(file);
+	
 	fwrite(&try_s, 1, 1, file);
-	flag=1;
-	do {
-	    if (setTryAnswer(file)) flag=0;
-	}
-	while (flag);
+	setTryAnswer(file, n);
 	fwrite(&end_s, 1, 1, file);
 	fwrite(&end_len, 1, 1, file);
 	
@@ -81,6 +72,7 @@ int set_theme(void)
 	__fpurge(stdin);
 	scanf("%c", &enter_v);
 	fflush(file);
+	i++;
     } while (enter_v != 'y');
     fclose(file);
     /*FILE*/
@@ -97,4 +89,3 @@ int set_theme(void)
     fclose(file);
     return 0;
 }
-

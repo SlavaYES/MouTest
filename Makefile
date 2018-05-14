@@ -15,7 +15,7 @@ EXE=main
 
 .PHONY: all clean
 
-all: build txt $(EXE)
+all: build txt Theme $(EXE)
 
 $(EXE): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@
@@ -38,7 +38,9 @@ src:
 	mkdir src
 txt:
 	mkdir txt
-
+Theme:
+	mkdir Theme
+	touch Theme/Themes.txt
 clean:
-	-rm -rf build txt
+	-rm -rf build txt Theme
 
