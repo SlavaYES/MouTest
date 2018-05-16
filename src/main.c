@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "conios.h"
 #include "add_tem.h"
 #define x 100
 #define y 20
@@ -11,9 +12,6 @@ int main()
     int i;
     char enter;
     
-    /*CREAT ADDTEST*/
-    FILE *file=fopen("txt/Init_file.txt", "w");
-    fclose(file);
     /*CREAT ADDTEST*/
     
     /*HELP*/
@@ -73,10 +71,11 @@ int main()
 	printf("\x1b[0m");
     }
     /*SWITCH ITEM*/
-    gotoxy(0, 25);
+    printf("\n");
+    gotoxy(0, 0);
     switch (i) {
     case 1:
-	set_tem(file);
+	set_theme();
 	break; //CREAT
     case 2:
 	break; //PASS

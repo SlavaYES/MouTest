@@ -9,8 +9,7 @@ CFLAGS=-Wall -Werror
 src=src/
 build=build/
 
-SOURCES=main.c add_tem.c
-OBJECTS=$(addprefix $(build), main.o add_tem.o setAnswer.o setTryAnswer.o)
+OBJECTS=$(addprefix $(build), main.o conios.o add_tem.o setAnswer.o setTryAnswer.o)
 EXE=main
 
 .PHONY: all clean
@@ -22,6 +21,9 @@ $(EXE): $(OBJECTS)
 
 $(build)main.o: $(src)main.c
 	$(CC) $(CFLAGS) -c $(src)main.c -o $@
+
+$(build)conios.o: $(src)conios.c $(src)conios.h
+	$(CC) $(CFLAGS) -c $(src)conios.c -o $@
 
 $(build)add_tem.o: $(src)add_tem.c $(src)add_tem.h
 	$(CC) $(CFLAGS) -c $(src)add_tem.c -o $@
