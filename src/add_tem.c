@@ -14,20 +14,20 @@ int set_theme(void)
     char nameFile[32], nameFileFull[64], nameTheme[32];
     //INIT SYMBOL
     char vop_s='$', otv_s='!', try_s='^', end_s='#', end_len='\n', pro_s=' ';
-    /*NAME FILE*/
+    /*NAME FILE read*/
     strcpy(nameFileFull, "txt/");
     system("clear");
     fputs("Enter the name file: ", stdout);
     scanf("%s", nameFile);
     strcat(nameFileFull, nameFile);
     strcat(nameFileFull, ".txt");
-    /*NAME FILE*/
+    /*NAME FILE open*/
     /*FILE*/
     file=fopen(nameFileFull, "wb");
     if (!file) {
 	fputs("ERROR\n", stdout);
     }
-    /*THEME*/
+    /*THEME read*/
     fputs("Enter Test Theme: ", stdout);
     __fpurge(stdin);
     fgets(nameTheme, 32, stdin);
@@ -41,9 +41,7 @@ int set_theme(void)
     fwrite(nameFileFull, 1, strlen(nameFileFull), file_theme);
     fwrite(&end_len, 1, 1, file_theme);
     fclose(file_theme);
-    /*VIEW FILE*/
-    fclose(file_theme);
-    /*THEME*/
+    /*THEME read and write*/
     char enter_v='u';
     char quest[128];
     int i, n;
@@ -76,7 +74,7 @@ int set_theme(void)
     } while (enter_v != 'y');
     fclose(file);
     /*FILE*/
-    /*VIEW FILE*/
+    /*VIEW FILE read*/
     file=fopen(nameFileFull, "rb");
     if (!file) {
 	fputs("ERROR\n", stdout);

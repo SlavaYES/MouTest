@@ -43,4 +43,3 @@ Theme:
 	touch Theme/Themes.txt
 clean:
 	-rm -rf build txt Theme
-
