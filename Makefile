@@ -8,13 +8,14 @@ CFLAGS=-Wall -Werror
 
 src=src/
 build=build/
+bin=bin/
 
-OBJECTS=$(addprefix $(build), main.o conios.o add_tem.o setAnswer.o setTryAnswer.o)
-EXE=main
+OBJECTS=$(addprefix $(build), main.o conios.o add_tem.o)
+EXE=$(bin)main
 
 .PHONY: all clean
 
-all: build txt Theme $(EXE)
+all: build txt bin Tests $(EXE)
 
 $(EXE): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@
@@ -28,20 +29,16 @@ $(build)conios.o: $(src)conios.c $(src)conios.h
 $(build)add_tem.o: $(src)add_tem.c $(src)add_tem.h
 	$(CC) $(CFLAGS) -c $(src)add_tem.c -o $@
 
-$(build)setAnswer.o: $(src)setAnswer.c $(src)setAnswer.h
-	$(CC) $(CFLAGS) -c $(src)setAnswer.c -o $@
-
-$(build)setTryAnswer.o: $(src)setTryAnswer.c $(src)setTryAnswer.h
-	$(CC) $(CFLAGS) -c $(src)setTryAnswer.c -o $@
-
 build:
 	mkdir build
 src:
 	mkdir src
 txt:
 	mkdir txt
-Theme:
-	mkdir Theme
-	touch Theme/Themes.txt
+bin:
+	mkdir bin
+Tests:
+	mkdir Tests
+	touch Tests/Tests.txt
 clean:
-	-rm -rf build txt Theme
+	-rm -rf build txt bin Tests
