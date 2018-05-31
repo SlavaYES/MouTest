@@ -64,7 +64,6 @@ $(build_t)select.o: $(src)select.c $(src)select.h
 $(build_t)displaylist.o: $(src)displaylist.c $(src)displaylist.h
 	$(CC) $(CFLAGS) -c $(src)displaylist.c -o $@
 
-
 build:
 	mkdir build
 build_t:

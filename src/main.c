@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdio_ext.h>
 #include "conios.h"
 #include "add_tem.h"
 #include <string.h>
 #include "checkfile.h"
 #include "displaylist.h"
 #include "select.h"
+
 #define x 100
 #define y 20
 #define xh 70
@@ -15,6 +17,14 @@ int main()
 {
     int i;
     char enter;
+
+
+    FILE *file;
+    file = fopen("", "");
+    char nameFile[256], nameTheme[256];
+
+    //Помощь
+
     
     /*CREAT ADDTEST*/
 while(1){
@@ -25,7 +35,8 @@ while(1){
     printf("Вниз:    'S'");
     gotoxy(xh, yh+3);
     printf("Выбрать: 'E'");
-    /*MENU*/
+
+    //Меню
     gotoxy(x, y+1);
     printf("\x1b[1;36m");
     printf("Создать тест");
@@ -75,13 +86,26 @@ enter=' ';
 	}
 	printf("\x1b[0m");
     }
-    /*SWITCH ITEM*/
+
+    //Выбор пункта
     printf("\n");
     gotoxy(0, 0);
     switch (i) {
     case 1:
-	set_theme();
-	break; //CREAT
+
+	system("clear");
+	fputs("Введите Имя файла: ", stdout);
+	scanf("%s", nameFile);
+	setFile(nameFile, file);
+	
+	fputs("Введите Тему: ", stdout);
+	__fpurge(stdin);
+	fgets(nameTheme, 256, stdin);
+        
+        setTheme(nameTheme, nameFile);
+        
+        setTest(nameFile, file);
+        break; //Создание
     case 2:
     system("clear");
     FILE *f4;
@@ -119,9 +143,9 @@ enter=' ';
         getch();
 	break; //PASS
     case 3:
-	break; //HELP
+        break; //Помощь
     case 4:
-	return 0; //EXIT
+        return 0; //Выход
     }
     }
 }
