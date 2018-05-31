@@ -9,6 +9,8 @@
 #include "displaylist.h"
 #include "select.h"
 
+#include "startTesting.h"
+
 #define x 100
 #define y 20
 #define xh 70
@@ -21,6 +23,7 @@ int main()
 
     FILE *file;
     file = fopen("", "");
+    char nameFileFull[256];
     char nameFile[256], nameTheme[256];
 
     /*CREAT ADDTEST*/
@@ -49,7 +52,7 @@ while(1){
     printf("Выйти");
 
     i=1;
-    gotoxy(x+11, y+i);
+    gotoxy(x+12, y+i);
 enter=' ';
     while (enter!='e') {
 	clrscr();
@@ -92,24 +95,30 @@ enter=' ';
     gotoxy(0, 0);
     switch (i) {
     case 1:
-
+	
 	system("clear");
 	fputs("Введите Имя файла: ", stdout);
 	scanf("%s", nameFile);
-	setFile(nameFile, file);
+	
+	strcpy(nameFileFull, "../txt/");
+	strcat(nameFileFull, nameFile);
+	strcat(nameFileFull, ".txt");
+	strcpy(nameFile, nameFileFull);
+
+	setFile(nameFileFull, file);
 	
 	fputs("Введите Тему: ", stdout);
 	__fpurge(stdin);
 	fgets(nameTheme, 256, stdin);
         
-        setTheme(nameTheme, nameFile);
+        setTheme(nameTheme, nameFileFull);
         
         setTest(nameFile, file);
         break; //Создание
     case 2:
 
     system("clear");
-    FILE *f4;
+
     char tema[256],a[256];
     int choice=0;
     strcpy(a,"../Tests/Tests.txt");
@@ -135,18 +144,21 @@ enter=' ';
 	else {break;}
     }
     
+    startTesting(tema);
+    /*
     puts(tema);
     f4=fopen(tema,"r");
         if(f4){
         printf("Существует\n");}else printf("Ошибочка с файлом\n");
         fclose(f4);
-        getch();
+        */
         getch();
 	break; //PASS
 
     case 3:
         break; //Помощь
     case 4:
+	clrscr();
         return 0; //Выход
     }
     }

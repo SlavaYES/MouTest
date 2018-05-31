@@ -8,12 +8,11 @@ CFLAGS=-Wall -Werror
 
 src=src/
 build=build/
-<<<<<<< HEAD
 build_t=build_t/
 bin=bin/
 
-OBJECTS=$(addprefix $(build), main.o conios.o add_tem.o setAnswer.o setTryAnswer.o select.o displaylist.o checkfile.o)
-OBJECTS_T=$(addprefix $(build_t), main_test.o checkfile.o displaylist.o select.o)
+OBJECTS=$(addprefix $(build), main.o conios.o add_tem.o select.o displaylist.o checkfile.o startTesting.o)
+OBJECTS_T=$(addprefix $(build_t), main_test.o checkfile.o displaylist.o select.o startTesting.o add_tem.o)
 EXE=bin/main
 
 .PHONY: all clean test
@@ -36,12 +35,6 @@ $(build)conios.o: $(src)conios.c $(src)conios.h
 $(build)add_tem.o: $(src)add_tem.c $(src)add_tem.h
 	$(CC) $(CFLAGS) -c $(src)add_tem.c -o $@
 
-$(build)setAnswer.o: $(src)setAnswer.c $(src)setAnswer.h
-	$(CC) $(CFLAGS) -c $(src)setAnswer.c -o $@
-
-$(build)setTryAnswer.o: $(src)setTryAnswer.c $(src)setTryAnswer.h
-	$(CC) $(CFLAGS) -c $(src)setTryAnswer.c -o $@
-
 $(build)select.o: $(src)select.c $(src)select.h
 	$(CC) $(CFLAGS) -c $(src)select.c -o $@
 
@@ -51,10 +44,14 @@ $(build)displaylist.o: $(src)displaylist.c $(src)displaylist.h
 $(build)checkfile.o: $(src)checkfile.c $(src)checkfile.h
 	$(CC) $(CFLAGS) -c $(src)checkfile.c -o $@
 
+
+$(build)startTesting.o: $(src)startTesting.c $(src)startTesting.h
+	$(CC) $(CFLAGS) -c $(src)startTesting.c -o $@
+
 $(bin)main_test: $(OBJECTS_T)
 	$(CC) $(CFLAGS) $(OBJECTS_T) -o $@
 
-$(build_t)main_test.o: test/main.c thirdparty/ctest.h $(src)checkfile.h
+$(build_t)main_test.o: test/main.c thirdparty/ctest.h $(src)checkfile.h $(src)displaylist.h $(src)select.h $(src)startTesting.h $(src)add_tem.h
 	$(CC) $(CFLAGS) -I thirdparty -I src -c test/main.c -o $@
 
 $(build_t)checkfile.o: $(src)checkfile.c $(src)checkfile.h
@@ -65,6 +62,12 @@ $(build_t)select.o: $(src)select.c $(src)select.h
 
 $(build_t)displaylist.o: $(src)displaylist.c $(src)displaylist.h
 	$(CC) $(CFLAGS) -c $(src)displaylist.c -o $@
+
+$(build_t)startTesting.o: $(src)startTesting.c $(src)startTesting.h
+	$(CC) $(CFLAGS) -c $(src)startTesting.c -o $@
+
+$(build_t)add_tem.o: $(src)add_tem.c $(src)add_tem.h
+	$(CC) $(CFLAGS) -c $(src)add_tem.c -o $@
 
 build:
 	mkdir build
@@ -80,4 +83,4 @@ Tests:
 	mkdir Tests
 	touch Tests/Tests.txt
 clean:
-	-rm -rf build txt bin Tests
+	-rm -rf build build_t txt bin Tests

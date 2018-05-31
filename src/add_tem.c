@@ -10,18 +10,9 @@
 
 int setFile(char *nameFile, FILE *file)
 {
-    char nameFileFull[256];
-
-    strcpy(nameFileFull, "../txt/");
-    strcat(nameFileFull, nameFile);
-    strcat(nameFileFull, ".txt");
-    strcpy(nameFile, nameFileFull);
-
     if (!(file = fopen(nameFile, "wb"))) {
         return 1;
     }
-
-    fclose(file);
 
     return 0;
 }
