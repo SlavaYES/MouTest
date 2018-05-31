@@ -20,147 +20,154 @@ int main()
 {
     int i;
     char enter;
-
-    FILE *file;
-    file = fopen("", "");
-    char nameFileFull[256];
-    char nameFile[256], nameTheme[256];
+    char nameFileFull[256], nameFile[256]; 
+    char nameTheme[256], nameThemeWay[256];
 
     /*CREAT ADDTEST*/
-while(1){
-    /*HELP*/
+    while(1){
+        /*HELP*/
 
-    //Помощь
+        //Помощь
 
-    gotoxy(xh, yh+1);
-    printf("Вверх:   'W'");
-    gotoxy(xh, yh+2);
-    printf("Вниз:    'S'");
-    gotoxy(xh, yh+3);
-    printf("Выбрать: 'E'");
+        gotoxy(xh, yh+1);
+        printf("Вверх:   'W'");
+        gotoxy(xh, yh+2);
+        printf("Вниз:    'S'");
+        gotoxy(xh, yh+3);
+        printf("Выбрать: 'E'");
 
-    //Меню
-    gotoxy(x, y+1);
-    printf("\x1b[1;36m");
-    printf("Создать тест");
-    printf("\x1b[0m");
-    gotoxy(x, y+2);
-    printf("Пройти  тест");
-    gotoxy(x, y+3);
-    printf("Помощь");
-    gotoxy(x, y+4);
-    printf("Выйти");
+        //Меню
+        gotoxy(x, y+1);
+        printf("\x1b[1;36m");
+        printf("Создать тест");
+        printf("\x1b[0m");
+        gotoxy(x, y+2);
+        printf("Пройти  тест");
+        gotoxy(x, y+3);
+        printf("Помощь");
+        gotoxy(x, y+4);
+        printf("Выйти");
 
-    i=1;
-    gotoxy(x+12, y+i);
-enter=' ';
-    while (enter!='e') {
-	clrscr();
-	enter=getch();
-	/*HELP*/
-	gotoxy(xh, yh+1);
-	printf("Вверх:   'W'");
-	gotoxy(xh, yh+2);
-	printf("Вниз:    'S'");
-	gotoxy(xh, yh+3);
-	printf("Выбрать: 'E'");
-	/*MENU*/
-	gotoxy(x, y+1);
-	printf("Создать тест");
-	gotoxy(x, y+2);
-	printf("Пройти  тест");
-	gotoxy(x, y+3);
-	printf("Помощь");
-	gotoxy(x, y+4);
-	printf("Выйти");
-	/*CHECK*/
-	if (enter==119) i--;
-	if (enter==115) i++;
-	if (i<1) i=4;
-	if (i>4) i=1;
-	/*SWITCH POINTER*/
-	gotoxy(x, y+i);
-	printf("\x1b[1;36m");
-	switch (i) {
-	case 1: printf("Создать тест"); break;
-	case 2: printf("Пройти  тест"); break;
-	case 3: printf("Помощь"); break;
-	case 4: printf("Выйти"); break;
-	}
-	printf("\x1b[0m");
-    }
+        i = 1;
+        gotoxy(x+12, y+i);
+        enter=' ';
+        while (enter!='e') {
+            clrscr();
+            enter=getch();
+            /*HELP*/
+            gotoxy(xh, yh+1);
+            printf("Вверх:   'W'");
+            gotoxy(xh, yh+2);
+            printf("Вниз:    'S'");
+                gotoxy(xh, yh+3);
+                printf("Выбрать: 'E'");
+            /*MENU*/
+            gotoxy(x, y+1);
+            printf("Создать тест");
+            gotoxy(x, y+2);
+            printf("Пройти  тест");
+            gotoxy(x, y+3);
+            printf("Помощь");
+            gotoxy(x, y+4);
+            printf("Выйти");
+            /*CHECK*/
+            if (enter==119) i--;
+            if (enter==115) i++;
+            if (i<1) i=4;
+            if (i>4) i=1;
+            /*SWITCH POINTER*/
+            gotoxy(x, y+i);
+            printf("\x1b[1;36m");
+            switch (i) {
+            case 1: printf("Создать тест"); break;
+            case 2: printf("Пройти  тест"); break;
+            case 3: printf("Помощь"); break;
+            case 4: printf("Выйти"); break;
+            }
+            printf("\x1b[0m");
+        }
 
-    //Выбор пункта
-    printf("\n");
-    gotoxy(0, 0);
-    switch (i) {
-    case 1:
-	
-	system("clear");
-	fputs("Введите Имя файла: ", stdout);
-	scanf("%s", nameFile);
-	
-	strcpy(nameFileFull, "../txt/");
-	strcat(nameFileFull, nameFile);
-	strcat(nameFileFull, ".txt");
-	strcpy(nameFile, nameFileFull);
+        //Выбор пункта
+        printf("\n");
+        gotoxy(0, 0);
+        switch (i) {
+        case 1:
 
-	setFile(nameFileFull, file);
-	
-	fputs("Введите Тему: ", stdout);
-	__fpurge(stdin);
-	fgets(nameTheme, 256, stdin);
-        
-        setTheme(nameTheme, nameFileFull);
-        
-        setTest(nameFile, file);
-        break; //Создание
-    case 2:
+            system("clear");
+            fputs("Введите Имя файла: ", stdout);
+            scanf("%s", nameFile);
 
-    system("clear");
+            strcpy(nameFileFull, "../txt/");
+            strcat(nameFileFull, nameFile);
+            strcat(nameFileFull, ".txt");
+            strcpy(nameFile, nameFileFull);
 
-    char tema[256],a[256];
-    int choice=0;
-    strcpy(a,"../Tests/Tests.txt");
-    if(Checkfile(a)==1) {
-    printf("\nФайл не существует или изначально был пуст,");
-    printf(" пройдите в пункт меню для создания теста.\n");
-    printf("Для выхода в меню нажмите любую клавишу...\n");
-    getch();
-    break;}
-    printf("Доступные для прохождения теста, темы:\n");
-    if(Displaylist(a)==1){
-    printf("\nФайл стал пуст в ходе отсеивания не существующих тем,");
-    printf(" пройдите в пункт меню для создания теста.\n");
-    printf("Для выхода в меню нажмите любую клавишу...\n");
-    getch();
-    break;
-    }
-    
-    while(!choice){
-	printf("Введите номер темы для выбора - ");
-	scanf("%d",&choice);
-	if(Select(a,tema,choice)==1) {printf("\nВы вышли за границу\n");choice=0;}
-	else {break;}
-    }
-    
-    startTesting(tema);
-    /*
-    puts(tema);
-    f4=fopen(tema,"r");
-        if(f4){
-        printf("Существует\n");}else printf("Ошибочка с файлом\n");
+            if (setFile(nameFileFull)) break;
+
+            fputs("Введите Тему: ", stdout);
+            __fpurge(stdin);
+            fgets(nameTheme, 256, stdin);
+
+            strcpy(nameThemeWay, "../Tests/Tests.txt");
+
+            if (setTheme(nameTheme, nameFileFull, nameThemeWay)) break;
+
+            setTest(nameFileFull);
+            break; //Создание
+        case 2:
+
+            system("clear");
+
+            char tema[256], a[256];
+            int choice = 0;
+
+            strcpy(a, "../Tests/Tests.txt");
+
+            if (Checkfile(a) == 1) {
+                printf("\nФайл не существует или изначально был пуст,");
+                printf(" пройдите в пункт меню для создания теста.\n");
+                printf("Для выхода в меню нажмите любую клавишу...\n");
+                getch();
+                break;
+            }
+
+            printf("Доступные для прохождения теста, темы:\n");
+            if (Displaylist(a) == 1) {
+                printf("\nФайл стал пуст в ходе отсеивания не существующих тем,");
+                printf(" пройдите в пункт меню для создания теста.\n");
+                printf("Для выхода в меню нажмите любую клавишу...\n");
+                getch();
+                break;
+            }
+
+            while (!choice) {
+                printf("Введите номер темы для выбора - ");
+                scanf("%d",&choice);
+
+                if (Select(a,tema,choice) == 1) {
+                    printf("\nВы вышли за границу\n");
+                    choice = 0;
+                } else break;
+            }
+
+            startTesting(tema);
+        /*
+        puts(tema);
+        f4 = fopen(tema,"r");
+        if (f4) {
+            printf("Существует\n");
+        } else printf("Ошибочка с файлом\n");
         fclose(f4);
         */
-        getch();
-	break; //PASS
+            getch();
+        break; //Проход
 
-    case 3:
-        break; //Помощь
-    case 4:
-	clrscr();
-        return 0; //Выход
-    }
+        case 3:
+            break; //Помощь
+        case 4:
+            clrscr();
+            return 0; //Выход
+        }
     }
 }
 

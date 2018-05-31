@@ -8,8 +8,10 @@
 #define KEY 10
 #define NUM 9
 
-int setFile(char *nameFile, FILE *file)
+int setFile(char *nameFile)
 {
+    FILE *file;
+
     if (!(file = fopen(nameFile, "wb"))) {
         return 1;
     }
@@ -17,14 +19,19 @@ int setFile(char *nameFile, FILE *file)
     return 0;
 }
 
-int setTheme(char *nameTheme, char *nameFile)
+int setTheme(char *nameTheme, char *nameFile, char *nameThemeWay)
 {
-    FILE *file;
+    FILE *file, *file_t;
     char pro_s = '&', end_len = '\n';
 
-    if (!(file = fopen("../Tests/Tests.txt", "ab"))) {
+    if (!(file = fopen(nameThemeWay, "ab"))) {
         return 1;
     }
+
+    if (!(file_t = fopen(nameFile, "rb"))) {
+        return 1;
+    }
+    fclose(file_t);
 
     fwrite(nameTheme, 1, strlen(nameTheme)-1, file);
     fwrite(&pro_s, 1, 1, file);
@@ -36,12 +43,13 @@ int setTheme(char *nameTheme, char *nameFile)
     return 0;
 }
 
-int setTest(char *nameFile, FILE *file)
+int setTest(char *nameFile)
 {
-    char vop_s = '$',  otv_s = '!';
-    char enter_v = 'u', enter_o = 'u', t[4]=". ";
-    char quest[128], buffer[10];
-    int i = 1, j, n;
+    FILE *file;
+    char quest[256], answer[256], try[12];//вопрос ответ номер-правильного
+    char quit = 'u', enter_v = 'u', enter_o = 'u';//выходы
+    char otv_s = '!', try_s = '^', end_s = '#', end_len = '\n';//служебные символы
+    int k = 1, i = 1, j, n;//счетчики
 
     if (!(file = fopen(nameFile, "ab"))) {
         return 1;
@@ -52,29 +60,59 @@ int setTest(char *nameFile, FILE *file)
         system("clear");
         printf("Введите %d-ый вопрос: ", i);
         __fpurge(stdin);
-        fgets(quest, 128, stdin);
+        fgets(quest, 256, stdin);
 
-        fwrite(&vop_s, 1, 1, file);
-        sprintf(buffer, "%d", i);
-        fwrite(buffer, 1, 1, file);
-        fwrite(t, 1, 2, file);
-        fwrite(quest, 1, strlen(quest), file);
+        while ((setQuest(quest, i, file))) {
+            printf("Ошибка!\n");
+            printf("Введите %d-ый вопрос: ", i);
+            __fpurge(stdin);
+            fgets(quest, 256, stdin);
+        }
 
         j = 0;
         fwrite(&otv_s, 1, 1, file);
         do {// Ввод ответов
 
             j++;
-            if (setAnswer(j, file)) {
+            printf("Введите %d-ый ответ: ", j);
+            __fpurge(stdin);
+            fgets(answer, 256, stdin);
+
+            while ((setAnswer(answer, j, file))) {
                 printf("Ошибка!\n");
+                printf("Введите %d-ый ответ: ", j);
+                __fpurge(stdin);
+                fgets(answer, 256, stdin);
             }
+
             printf("\nЗакончить ввод ответов?[y]: ");
             scanf("%c", &enter_o);
 
         } while (enter_o != 'y' && j < NUM);
         n = j;
 
-        setTryAnswer(n, file);
+        fwrite(&try_s, 1, 1, file);
+        do {//Ввод правильных ответов
+
+            printf("Введите %d-ый правильный номер ответа: ", k);
+            __fpurge(stdin);
+            try[k]=getchar();
+
+            while ((setTryAnswer(try, &k, n, file))) {
+                printf("Ошибка!\n");
+                printf("Введите %d-ый правильный номер: ", k);
+                __fpurge(stdin);
+                try[k] = getchar();
+            }
+
+            printf("\nЗакончить ввод правильных номеров?[y]: ");
+            __fpurge(stdin);
+            scanf("%c", &quit);
+
+        } while (quit != 'y' && k < 10 && k <= n);
+
+        fwrite(&end_s, 1, 1, file);
+        fwrite(&end_len, 1, 1, file);
 
         printf("\nЗакончить ввод вопросов?[y]: ");
         __fpurge(stdin);
@@ -93,14 +131,30 @@ int setTest(char *nameFile, FILE *file)
     return 0;
 }
 
-int setAnswer(int j, FILE *file)
+int setQuest(char *quest, int i, FILE *file)
 {
-    char answer[128], buffer[10];
-    char sk[3]=") ";
+    char buffer[10], vop_s = '$', t[3] = ". ";
 
-    printf("Введите %d-ый ответ: ", j);
-    __fpurge(stdin);
-    fgets(answer, 128, stdin);
+    if (quest[0] == '\n') {
+        return 1;
+    }
+
+    fwrite(&vop_s, 1, 1, file);
+    sprintf(buffer, "%d", i);//перевод из int в char
+    fwrite(buffer, 1, 1, file);
+    fwrite(t, 1, 2, file);
+    fwrite(quest, 1, strlen(quest), file);
+
+    return 0;
+}
+
+int setAnswer(char *answer, int j, FILE *file)
+{
+    char buffer[10], sk[3]=") ";
+
+    if (answer[0] == '\n') {
+        return 1;
+    }
 
     sprintf(buffer, "%d", j);
 
@@ -111,46 +165,25 @@ int setAnswer(int j, FILE *file)
     return 0;
 }
 
-int setTryAnswer(int n, FILE *file)
+int setTryAnswer(char *try, int *k, int n, FILE *file)
 {
-    char quit, try[12];
     char num = n + '0';
-    char try_s = '^', end_s = '#', end_len = '\n';
-    int k = 1, flag;
+    int flag;
+    try[0] = '0';
 
-    try[0]='0'+KEY;
-    fwrite(&try_s, 1, 1, file);
-    do {//Ввод правильных ответов
-
-        printf("Введите %d-ый правильный номер ответа: ", k);
-        __fpurge(stdin);
-        try[k]=getchar();
-
-        if (try[k] >= '1' && try[k] <= '9' && try[k] <= num) {
-
-            try[k]+=KEY;
-            flag = 1;
-            for (int i = 0; i < k; i++) {
-                if (try[k] == try[i]) {
-                    flag=0;
-                }
+    if (try[*k] >= '1' && try[*k] <= '9' && try[*k] <= num) {
+        flag = 1;
+        for (int i = 0; i < *k; i++) {
+            if (try[*k] == try[i]) {
+                flag=0;
             }
+        }
+        if  (flag) {
+            try[*k]+=KEY;
+            fwrite(try+(*k), 1, 1, file);
+            (*k)++;
+        } else return 1;
+    } else return 1;
 
-            if (flag) {
-
-                fwrite(try+k, 1, 1, file);
-                k++;
-                printf("\nЗакончить ввод правильных номеров?[y]: ");
-                __fpurge(stdin);
-                scanf("%c", &quit);
-
-            } else printf("\x1b[31mОшибка ввода\x1b[0m\n");
-        } else printf("\x1b[31mОшибка ввода\x1b[0m\n");
-
-    } while (quit != 'y' && k < 10 && k <= n);
-
-    fwrite(&end_s, 1, 1, file);
-    fwrite(&end_len, 1, 1, file);
-
-    return 1;
+    return 0;
 }
