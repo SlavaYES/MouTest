@@ -4,7 +4,7 @@
 #СС указатель на компилятор для сборки
 CC=gcc
 #FLAGS Флажки для компиляции
-CFLAGS=-Wall -Werror
+CFLAGS=-Wall -Werror -std=C99
 
 src=src/
 build=build/
