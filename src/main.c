@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include "conios.h"
 #include "add_tem.h"
+#include <string.h>
+#include "checkfile.h"
+#include "displaylist.h"
+#include "select.h"
 #define x 100
 #define y 20
 #define xh 70
@@ -13,7 +17,7 @@ int main()
     char enter;
     
     /*CREAT ADDTEST*/
-    
+while(1){
     /*HELP*/
     gotoxy(xh, yh+1);
     printf("Вверх:   'W'");
@@ -35,6 +39,7 @@ int main()
 
     i=1;
     gotoxy(x+11, y+i);
+enter=' ';
     while (enter!='e') {
 	clrscr();
 	enter=getch();
@@ -78,11 +83,46 @@ int main()
 	set_theme();
 	break; //CREAT
     case 2:
+    system("clear");
+    FILE *f4;
+    char tema[256],a[256];
+    int choice=0;
+    strcpy(a,"../Tests/Tests.txt");
+    if(Checkfile(a)==1) {
+    printf("\nФайл не существует или изначально был пуст,");
+    printf(" пройдите в пункт меню для создания теста.\n");
+    printf("Для выхода в меню нажмите любую клавишу...\n");
+    getch();
+    break;}
+    printf("Доступные для прохождения теста, темы:\n");
+    if(Displaylist(a)==1){
+    printf("\nФайл стал пуст в ходе отсеивания не существующих тем,");
+    printf(" пройдите в пункт меню для создания теста.\n");
+    printf("Для выхода в меню нажмите любую клавишу...\n");
+    getch();
+    break;
+    }
+    
+    while(!choice){
+	printf("Введите номер темы для выбора - ");
+	scanf("%d",&choice);
+	if(Select(a,tema,choice)==1) {printf("\nВы вышли за границу\n");choice=0;}
+	else {break;}
+    }
+    
+    puts(tema);
+    f4=fopen(tema,"r");
+        if(f4){
+        printf("Существует\n");}else printf("Ошибочка с файлом\n");
+        fclose(f4);
+        getch();
+        getch();
 	break; //PASS
     case 3:
 	break; //HELP
     case 4:
 	return 0; //EXIT
+    }
     }
 }
 
