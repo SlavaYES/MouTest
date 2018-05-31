@@ -8,14 +8,19 @@ CFLAGS=-Wall -Werror
 
 src=src/
 build=build/
+build_t=build_t/
 bin=bin/
 
-OBJECTS=$(addprefix $(build), main.o conios.o add_tem.o)
-EXE=$(bin)main
+OBJECTS=$(addprefix $(build), main.o conios.o add_tem.o setAnswer.o setTryAnswer.o select.o displaylist.o checkfile.o)
+OBJECTS_T=$(addprefix $(build_t), main_test.o checkfile.o displaylist.o select.o)
+EXE=bin/main
 
-.PHONY: all clean
+.PHONY: all clean test
 
-all: build txt bin Tests $(EXE)
+all: build build_t txt Tests bin $(EXE) test
+
+test: $(bin)main_test
+	$(bin)main_test
 
 $(EXE): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@
@@ -29,8 +34,40 @@ $(build)conios.o: $(src)conios.c $(src)conios.h
 $(build)add_tem.o: $(src)add_tem.c $(src)add_tem.h
 	$(CC) $(CFLAGS) -c $(src)add_tem.c -o $@
 
+$(build)setAnswer.o: $(src)setAnswer.c $(src)setAnswer.h
+	$(CC) $(CFLAGS) -c $(src)setAnswer.c -o $@
+
+$(build)setTryAnswer.o: $(src)setTryAnswer.c $(src)setTryAnswer.h
+	$(CC) $(CFLAGS) -c $(src)setTryAnswer.c -o $@
+
+$(build)select.o: $(src)select.c $(src)select.h
+	$(CC) $(CFLAGS) -c $(src)select.c -o $@
+
+$(build)displaylist.o: $(src)displaylist.c $(src)displaylist.h
+	$(CC) $(CFLAGS) -c $(src)displaylist.c -o $@
+
+$(build)checkfile.o: $(src)checkfile.c $(src)checkfile.h
+	$(CC) $(CFLAGS) -c $(src)checkfile.c -o $@
+
+$(bin)main_test: $(OBJECTS_T)
+	$(CC) $(CFLAGS) $(OBJECTS_T) -o $@
+
+$(build_t)main_test.o: test/main.c thirdparty/ctest.h $(src)checkfile.h
+	$(CC) $(CFLAGS) -I thirdparty -I src -c test/main.c -o $@
+
+$(build_t)checkfile.o: $(src)checkfile.c $(src)checkfile.h
+	$(CC) $(CFLAGS) -c $(src)checkfile.c -o $@
+
+$(build_t)select.o: $(src)select.c $(src)select.h
+	$(CC) $(CFLAGS) -c $(src)select.c -o $@
+
+$(build_t)displaylist.o: $(src)displaylist.c $(src)displaylist.h
+	$(CC) $(CFLAGS) -c $(src)displaylist.c -o $@
+
 build:
 	mkdir build
+build_t:
+	mkdir build_t
 src:
 	mkdir src
 txt:
