@@ -8,6 +8,7 @@ CFLAGS=-Wall -Werror
 
 src=src/
 build=build/
+<<<<<<< HEAD
 build_t=build_t/
 bin=bin/
 
@@ -16,6 +17,7 @@ OBJECTS_T=$(addprefix $(build_t), main_test.o checkfile.o displaylist.o select.o
 EXE=bin/main
 
 .PHONY: all clean test
+
 
 all: build build_t txt Tests bin $(EXE) test
 
@@ -63,7 +65,6 @@ $(build_t)select.o: $(src)select.c $(src)select.h
 
 $(build_t)displaylist.o: $(src)displaylist.c $(src)displaylist.h
 	$(CC) $(CFLAGS) -c $(src)displaylist.c -o $@
-
 
 build:
 	mkdir build
