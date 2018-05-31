@@ -11,11 +11,11 @@ int set_theme(void)
 {
     FILE *file, *file_theme;
     char p;//Obhod
-    char nameFile[32], nameFileFull[64], nameTheme[32];
+    char nameFile[32], nameFileFull[64], nameTheme[256];
     //INIT SYMBOL
-    char vop_s='$', otv_s='!', try_s='^', end_s='#', end_len='\n', pro_s=' ';
+    char vop_s='$', otv_s='!', try_s='^', end_s='#', end_len='\n', pro_s='&';
     /*NAME FILE read*/
-    strcpy(nameFileFull, "txt/");
+    strcpy(nameFileFull, "../txt/");
     system("clear");
     fputs("Enter the name file: ", stdout);
     scanf("%s", nameFile);
@@ -30,9 +30,9 @@ int set_theme(void)
     /*THEME read*/
     fputs("Enter Test Theme: ", stdout);
     __fpurge(stdin);
-    fgets(nameTheme, 32, stdin);
+    fgets(nameTheme, 256, stdin);
 
-    file_theme=fopen("Theme/Themes.txt", "ab");
+    file_theme=fopen("../Tests/Tests.txt", "ab");
     if (!file_theme) {
 	fputs("ERROR\n", stdout);
     }
