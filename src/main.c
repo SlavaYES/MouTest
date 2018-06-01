@@ -105,7 +105,9 @@ int main()
             strcat(nameFileFull, ".txt");
             strcpy(nameFile, nameFileFull);
 
-            if (setFile(nameFileFull)) break;
+            if (setFile(nameFileFull)) {
+                break;
+            }
 
             fputs("Введите Тему: ", stdout);
             __fpurge(stdin);
@@ -113,10 +115,12 @@ int main()
 
             strcpy(nameThemeWay, "../Tests/Tests.txt");
 
-            if (setTheme(nameTheme, nameFileFull, nameThemeWay)) break;
+            if (setTheme(nameTheme, nameFileFull, nameThemeWay)) {
+                break;
+            }
 
             setTest(nameFileFull);
-            break; //Создание
+            break; //Creat
         case 2:
             system("clear");
             strcpy(a, "../Tests/Tests.txt");
@@ -152,7 +156,7 @@ int main()
 
             startTesting(tema);
             getch();
-            break; //Проход
+            break; //StartTest
         case 3:
             clrscr();
             strcpy(info,"../info/info.txt");
@@ -161,10 +165,11 @@ int main()
             }
             printf("\n\nДля того чтобы вернутся в меню выбора, нажмите любую клавишу");
             getch();
-            break; //Помощь
+            break; //HALP
         case 4:
             clrscr();
-            return 0; //Выход
+
+            return 0; //Выхiд
         }
     }
 }
