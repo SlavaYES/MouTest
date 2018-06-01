@@ -8,7 +8,7 @@
 #include <ctest.h>
 #include <string.h>
 #include <stdio.h>
-
+//V-znachit Vova
 CTEST (Check_Fake_File, Correct_Check)
 {
     char a[256];
@@ -103,9 +103,7 @@ CTEST (Select_In_Empty_File, Correct_Check)
     int expected = 1;
     ASSERT_EQUAL(expected, result);
 }
-
-//CORRECT MAKC
-
+//Maxim_Gorkyi
 CTEST (checkCorrect1, Right_File)
 {
     char testName[256];
@@ -114,8 +112,6 @@ CTEST (checkCorrect1, Right_File)
     int expected=0;
     ASSERT_EQUAL(expected, result);
 }
-
-//INCORRECT
 
 CTEST (checkCorrect2, Absolutely_False_File)
 {
@@ -152,7 +148,7 @@ CTEST (checkCorrect5, False_File_With_Three_Right_Symbol)
     int expected=1;
     ASSERT_EQUAL(expected, result);
 }
-
+//SlavaKPSS
 CTEST (Creat_file_without_space, True_file)
 {
     char nameTest[256];
@@ -304,6 +300,7 @@ CTEST (setTryAnwer, False_set_repeat_try)
 
     ASSERT_EQUAL(expected, result);
 }
+
 int main(int argc, const char** argv)
 {
     int test_result = ctest_main(argc, argv);

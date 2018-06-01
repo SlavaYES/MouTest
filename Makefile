@@ -11,14 +11,14 @@ build=build/
 build_t=build_t/
 bin=bin/
 
-OBJECTS=$(addprefix $(build), main.o conios.o add_tem.o select.o displaylist.o checkfile.o startTesting.o)
+OBJECTS=$(addprefix $(build), main.o conios.o add_tem.o select.o displaylist.o checkfile.o startTesting.o info.o)
 OBJECTS_T=$(addprefix $(build_t), main_test.o checkfile.o displaylist.o select.o startTesting.o add_tem.o)
 EXE=bin/main
 
 .PHONY: all clean test
 
 
-all: build build_t txt Tests bin $(EXE) test
+all: build build_t txt Tests bin $(EXE)
 
 test: $(bin)main_test
 	$(bin)main_test
@@ -44,9 +44,11 @@ $(build)displaylist.o: $(src)displaylist.c $(src)displaylist.h
 $(build)checkfile.o: $(src)checkfile.c $(src)checkfile.h
 	$(CC) $(CFLAGS) -c $(src)checkfile.c -o $@
 
-
 $(build)startTesting.o: $(src)startTesting.c $(src)startTesting.h
 	$(CC) $(CFLAGS) -c $(src)startTesting.c -o $@
+
+$(build)info.o: $(src)info.c $(src)info.h
+	$(CC) $(CFLAGS) -c $(src)info.c -o $@
 
 $(bin)main_test: $(OBJECTS_T)
 	$(CC) $(CFLAGS) $(OBJECTS_T) -o $@
@@ -82,5 +84,8 @@ bin:
 Tests:
 	mkdir Tests
 	touch Tests/Tests.txt
+	mkdir Results
 clean:
-	-rm -rf build build_t txt bin Tests
+	-rm -rf build build_t bin Tests Results
+clear:
+	-rm -rf txt

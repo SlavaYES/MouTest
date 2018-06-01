@@ -9,29 +9,27 @@ int checkCorrect(char *testName)
 {
     FILE *file;
     char cPtr;
-    int symbol1=0, symbol2=0, symbol3=0, symbol4=0;
-    file=fopen(testName, "rb");
+    int symbol1 = 0, symbol2 = 0, symbol3 = 0, symbol4 = 0;
+    file = fopen(testName, "rb");
     
-    while(fread(&cPtr, 1, 1, file))
-    {
-	if(cPtr == '!') {
-	    symbol1++;
-	}
-	if(cPtr == '#') {
-	    symbol2++;
-	}
-	if(cPtr == '^') {
-	    symbol3++;
-	}
-	if(cPtr == '$'){
-	    symbol4++;
-	}
+    while (fread(&cPtr, 1, 1, file)) {
+        if (cPtr == '!') {
+            symbol1++;
+        }
+        if (cPtr == '#') {
+            symbol2++;
+        }
+        if (cPtr == '^') {
+            symbol3++;
+        }
+        if (cPtr == '$') {
+            symbol4++;
+        }
     }
-    if(symbol1>=1 && symbol2>=1 && symbol3>=1 && symbol4>=1) {
-	return 0;
-    }
-    else {
-	 return 1;
+    if (symbol1 >= 1 && symbol2 >= 1 && symbol3 >= 1 && symbol4 >= 1) {
+        return 0;
+    } else {
+         return 1;
     }
     fclose(file);
 }
@@ -45,14 +43,19 @@ void askName(char *nameAndFamily)
     system("clear");
 }
 
-int recordResult(int *answerMass, int *result)
+int recordResult(int *answerMass, int *result, int key)
 {
     static int resultNumber = 0, quantityPoints = 0;
     int userAnswer[ANSWER_QUANTITY];
     int i;
- 
+
+    if( key == 1) {
+        resultNumber = 0;
+        quantityPoints = 0;
+    }
+
     for (i = 0; i < ANSWER_QUANTITY; i++) {
-        userAnswer[i]=0;
+        userAnswer[i] = 0;
     }
 
     int quantityRightAnswer = 0;
@@ -60,13 +63,14 @@ int recordResult(int *answerMass, int *result)
     for (i = 0; i < ANSWER_QUANTITY; i++) {
         if (answerMass[i] != 0) {
             quantityRightAnswer += 1;
-        } else break;
+        } else {
+            break;
+        }
     }
 
     i = 0;
     do {
         printf("\nВведите номер %d-ого ответа:", i + 1);
-        //cin >> userAnswer[i++];
         scanf("%d", userAnswer + i++);
         quantityRightAnswer--;
     } while (quantityRightAnswer != 0);
@@ -95,11 +99,12 @@ int recordResult(int *answerMass, int *result)
 int  startTesting(char *testName)
 {
     FILE *file;
-    char cPtr; //str[128];
+    char cPtr;
     char nameAndFamily[128];
     int answerMass[ANSWER_QUANTITY], result[ANSWER_QUANTITY];
     int quantityPoints = 0;
-    int i, errorStatus=0;
+    int i, errorStatus = 0;
+    int key;
 
     for (i = 0; i < ANSWER_QUANTITY; i++) {
         result[i] = 0;
@@ -109,16 +114,16 @@ int  startTesting(char *testName)
     if (!(file = fopen(testName, "rb"))) {
         fputs("ERROR\n", stdout);
     }
-    errorStatus=checkCorrect(testName);
+    errorStatus = checkCorrect(testName);
     if (errorStatus == 1) {
-	printf("ошибка"); 
-	return 1;
+        printf("ошибка"); 
+        return 1;
     }
 
     askName(nameAndFamily);
 
     fputs("Прохождение теста\n", stdout);
-
+    key = 1;
     while (fread(&cPtr, 1, 1, file)) {
 
         if (cPtr == '!' || cPtr == '$' || cPtr == '#') {
@@ -129,19 +134,20 @@ int  startTesting(char *testName)
                 fread(&cPtr, 1, 1, file);
                 while(cPtr != '#') {
                     i++;
-                    cPtr -=10;
+                    cPtr -= 10;
                     answerMass[i] = atoi(&cPtr);
                     fread(&cPtr, 1, 1, file);
                 }
             }
-            //fread(&fPtr, 1, 1, file);
             if (cPtr != '#') {
                 printf("%c", cPtr);
             } else {
-                 quantityPoints=recordResult(answerMass, result);
+                 quantityPoints = recordResult(answerMass, result, key);
+                 key++;
             }
         }
     }
+
     int summ = 0;
     for (i = 0; i < ANSWER_QUANTITY; i++) {
         if (result[i] != 0) {
@@ -154,25 +160,27 @@ int  startTesting(char *testName)
     getchar();
 
     fclose(file);
-    char p = ' ', ps = 0x0a, ch[10], name[256];
-    
-    for (i = 0; i <= (strlen(testName)-5); i++) {
-        name[i] = testName[i];
+    char p = ' ', ps = 0x0a, ch[10], name[256], way[256];
+    int j;
+    for (i = 7, j = 0; i <= (strlen(testName)-5); i++, j++) {
+        name[j] = testName[i];
     }
-    name[strlen(testName)-4]='\0';
-    strcat(name, "_result.txt");
-    
+    name[strlen(testName)-4] = '\0';
+    strcpy(way, "../Results/");
+    strcat(way, name);
+    strcat(way, "_result.txt");
     sprintf(ch, "%5.2f", pers);
-    if (!(file=fopen(name, "rb"))) {
-        file=fopen(name, "wb");
+    if (!(file = fopen(way, "ab"))) {
+        file = fopen(way, "wb");
     }
-    
+
     fwrite(nameAndFamily, 1, strlen(nameAndFamily)-1, file);
     fwrite(&p, 1, 1, file);
     fwrite(ch, 1, strlen(ch), file);
     fwrite(&ps, 1, 1, file);
-    
+
     fclose(file);
+
     return 0;
 }
 

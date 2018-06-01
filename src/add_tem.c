@@ -46,16 +46,16 @@ int setTheme(char *nameTheme, char *nameFile, char *nameThemeWay)
 int setTest(char *nameFile)
 {
     FILE *file;
-    char quest[256], answer[256], try[12];//вопрос ответ номер-правильного
-    char quit = 'u', enter_v = 'u', enter_o = 'u';//выходы
-    char otv_s = '!', try_s = '^', end_s = '#', end_len = '\n';//служебные символы
-    int k = 1, i = 1, j, n;//счетчики
+    char quest[256], answer[256], try[12];//question answer number-correct
+    char quit = 'u', enter_v = 'u', enter_o = 'u';//exits
+    char otv_s = '!', try_s = '^', end_s = '#', end_len = '\n';//service chars
+    int k = 1, i = 1, j, n;        //Counters
 
     if (!(file = fopen(nameFile, "ab"))) {
         return 1;
     }
 
-    do {// Ввод вопросов ответов и правильных
+    do {        // input questions of answers and correct
 
         system("clear");
         printf("Введите %d-ый вопрос: ", i);
@@ -71,7 +71,7 @@ int setTest(char *nameFile)
 
         j = 0;
         fwrite(&otv_s, 1, 1, file);
-        do {// Ввод ответов
+        do {        // input answers
 
             j++;
             printf("Введите %d-ый ответ: ", j);
@@ -92,11 +92,11 @@ int setTest(char *nameFile)
         n = j;
 
         fwrite(&try_s, 1, 1, file);
-        do {//Ввод правильных ответов
+        do {        //input true answers
 
             printf("Введите %d-ый правильный номер ответа: ", k);
             __fpurge(stdin);
-            try[k]=getchar();
+            try[k] = getchar();
 
             while ((setTryAnswer(try, &k, n, file))) {
                 printf("Ошибка!\n");
@@ -140,7 +140,7 @@ int setQuest(char *quest, int i, FILE *file)
     }
 
     fwrite(&vop_s, 1, 1, file);
-    sprintf(buffer, "%d", i);//перевод из int в char
+    sprintf(buffer, "%d", i);//convert from int to char
     fwrite(buffer, 1, 1, file);
     fwrite(t, 1, 2, file);
     fwrite(quest, 1, strlen(quest), file);
@@ -150,7 +150,7 @@ int setQuest(char *quest, int i, FILE *file)
 
 int setAnswer(char *answer, int j, FILE *file)
 {
-    char buffer[10], sk[3]=") ";
+    char buffer[10], sk[3] = ") ";
 
     if (answer[0] == '\n') {
         return 1;
@@ -175,15 +175,19 @@ int setTryAnswer(char *try, int *k, int n, FILE *file)
         flag = 1;
         for (int i = 0; i < *k; i++) {
             if (try[*k] == try[i]) {
-                flag=0;
+                flag = 0;
             }
         }
         if  (flag) {
-            try[*k]+=KEY;
-            fwrite(try+(*k), 1, 1, file);
+            try[*k] += KEY;
+            fwrite(try + (*k), 1, 1, file);
             (*k)++;
-        } else return 1;
-    } else return 1;
+        } else {
+            return 1;
+        }
+    } else {
+        return 1;
+    }
 
     return 0;
 }

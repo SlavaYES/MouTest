@@ -1,13 +1,13 @@
 #include <stdio.h>
 
-int setFile(char *); //открытие теста для создания
+int setFile(char *); //Check open test
 
-int setTest(char *); //заполнение теста
+int setTest(char *); //Fill test
 
-int setQuest(char *, int, FILE *); //ввод вопроса
+int setQuest(char *, int, FILE *); //input question
 
-int setTheme(char *, char *, char *); //ввод темы
+int setTheme(char *, char *, char *); //input theme
 
-int setAnswer(char *, int, FILE *); //ввод ответа
+int setAnswer(char *, int, FILE *); //input answer
 
-int setTryAnswer(char *, int *, int, FILE *); //ввод номера правильного ответа
+int setTryAnswer(char *, int *, int, FILE *); //input number true answer

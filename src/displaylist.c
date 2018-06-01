@@ -9,7 +9,7 @@ int Displaylist(char source[256])
     char ch;
     FILE *f1;
 
-    f1 = fopen(source,"r");
+    f1 = fopen(source, "rb");
     if (!f1) {
         return 1;
     }
@@ -17,7 +17,7 @@ int Displaylist(char source[256])
     while (!feof(f1)) {
         ch = getc(f1);
         if(ch == 0x0a)
-        end ++;
+        end++;
     }
     fclose(f1);
 
@@ -25,10 +25,10 @@ int Displaylist(char source[256])
         return 1;
     }
 
-    f1 = fopen(source,"r");
+    f1 = fopen(source, "rb");
     while (!feof(f1)) {
         ch = ' ';
-        i ++;
+        i++;
         if (i <= end) {
             printf("%d) ", i);
         }
@@ -39,7 +39,7 @@ int Displaylist(char source[256])
                 break;
             }
             if (ch == '&') {
-                flag=1;
+                flag = 1;
             }
             if (flag == 1 && ch != 0x0a) {
                 continue;
@@ -50,5 +50,6 @@ int Displaylist(char source[256])
         }
     }
     fclose(f1);
+
     return 0;
 }

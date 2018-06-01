@@ -1,1 +1,1 @@
-int Checkfile(char source[256]);
+int Checkfile(char source[]);

@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio_ext.h>
+#include <string.h>
 #include "conios.h"
 #include "add_tem.h"
 
-#include <string.h>
 #include "checkfile.h"
 #include "displaylist.h"
 #include "select.h"
+#include "info.h"
 
 #include "startTesting.h"
 
@@ -22,6 +23,8 @@ int main()
     char enter;
     char nameFileFull[256], nameFile[256]; 
     char nameTheme[256], nameThemeWay[256];
+    char tema[256], a[256], info[256];
+    int choice = 0;
 
     /*CREAT ADDTEST*/
     while(1){
@@ -115,14 +118,9 @@ int main()
             setTest(nameFileFull);
             break; //Создание
         case 2:
-
             system("clear");
-
-            char tema[256], a[256];
-            int choice = 0;
-
             strcpy(a, "../Tests/Tests.txt");
-
+            choice = 0;
             if (Checkfile(a) == 1) {
                 printf("\nФайл не существует или изначально был пуст,");
                 printf(" пройдите в пункт меню для создания теста.\n");
@@ -147,22 +145,22 @@ int main()
                 if (Select(a,tema,choice) == 1) {
                     printf("\nВы вышли за границу\n");
                     choice = 0;
-                } else break;
+                } else {
+                    break;
+                }
             }
 
             startTesting(tema);
-        /*
-        puts(tema);
-        f4 = fopen(tema,"r");
-        if (f4) {
-            printf("Существует\n");
-        } else printf("Ошибочка с файлом\n");
-        fclose(f4);
-        */
             getch();
-        break; //Проход
-
+            break; //Проход
         case 3:
+            clrscr();
+            strcpy(info,"../info/info.txt");
+            if (Help(info) == 1) {
+                printf("Теперь вы безпомощны >:)");
+            }
+            printf("\n\nДля того чтобы вернутся в меню выбора, нажмите любую клавишу");
+            getch();
             break; //Помощь
         case 4:
             clrscr();

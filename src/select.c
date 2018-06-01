@@ -9,11 +9,11 @@ int Select(char source[256], char name[256], int choice)
     char ch;
     FILE *f1;
 
-    for(i = 0;i < 256;i ++) {
+    for (i = 0; i < 256; i ++) {
         name[i] = 0;
     }
 
-    f1 = fopen(source,"r");
+    f1 = fopen(source, "rb");
     if (!f1) {
         return 1;
     }
@@ -21,7 +21,7 @@ int Select(char source[256], char name[256], int choice)
     while (!feof(f1)) {
         ch = getc(f1);
         if (ch == 0x0a) {
-            num ++;
+            num++;
         }
     }
     fclose(f1);
@@ -31,7 +31,7 @@ int Select(char source[256], char name[256], int choice)
     }
     num = 0;
 
-    f1 = fopen(source,"rb");
+    f1 = fopen(source, "rb");
     if (!f1) {
         return 1;
     }
@@ -39,8 +39,8 @@ int Select(char source[256], char name[256], int choice)
         flag = 0;
         i = 0;
         ch = ' ';
-        num ++;
-        while(ch != 0x0a) {
+        num++;
+        while (ch != 0x0a) {
             ch = getc(f1);
             if (feof(f1)) {
                 break;
@@ -63,5 +63,6 @@ int Select(char source[256], char name[256], int choice)
         }
     }
     fclose(f1);
+
     return 0;
 }
